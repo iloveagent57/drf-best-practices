@@ -1,6 +1,19 @@
 # drf-best-practices
 Demonstrates best practices for using DRF
 
+# Tutorial getting started
+Largely based off of https://www.django-rest-framework.org/tutorial/quickstart/
+Do as follows:
+```
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py createsuperuser --email admin@example.com --username admin
+python manage.py runserver
+```
+Now visit http://localhost:8000/quickstart/api/v1/, click the "login" button at the top right,
+use "admin/[your password]" to authenticate, and see all of the users at
+http://localhost:8000/quickstart/api/v1/users/
+
 # Requests
 ## Making requests
 - This is less about DRF, but if using the python `requests` library, add
