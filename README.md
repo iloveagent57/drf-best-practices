@@ -10,9 +10,9 @@ python manage.py migrate
 python manage.py createsuperuser --email admin@example.com --username admin
 python manage.py runserver
 ```
-Now visit http://localhost:8000/quickstart/api/v1/, click the "login" button at the top right,
+Now visit http://localhost:8000/api/v1/, click the "login" button at the top right,
 use "admin/[your password]" to authenticate, and see all of the users at
-http://localhost:8000/quickstart/api/v1/users/
+http://localhost:8000/api/v1/users/
 
 # Requests
 ## Making requests
