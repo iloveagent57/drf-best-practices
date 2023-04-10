@@ -90,3 +90,61 @@ just as you can for Viewsets.
 
 # Authorization and edx-rbac
 - In particular, list-level perms
+
+
+# Using with Postman
+Add a pre-request script to a collection:
+```
+// Refresh the OAuth token if necessary
+var tokenDate = new Date(2010,1,1);
+var tokenTimestamp = pm.environment.get("OAuth_Timestamp");
+if(tokenTimestamp){
+  tokenDate = Date.parse(tokenTimestamp);
+}
+var expiresInTime = pm.environment.get("ExpiresInTime");
+if(!expiresInTime){
+    expiresInTime = 300000; // Set default expiration time to 5 minutes
+}
+if((new Date() - tokenDate) >= expiresInTime) 
+{
+   pm.sendRequest({
+      url:  pm.variables.get("Auth_Url"), 
+      method: 'POST',
+      header: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: {
+          mode: 'raw',
+          raw: JSON.stringify({
+              'username': pm.variables.get("Auth_Username"),
+              'password': pm.variables.get("Auth_Password"),
+          }),
+      },
+  }, function (err, res) {
+      console.log(err);
+      console.log(res.json());
+        pm.environment.set("OAuth_Token", res.json().access);
+        pm.environment.set("OAuth_Timestamp", new Date());
+        
+        // Set the ExpiresInTime variable to the time given in the response if it exists
+        if(res.json().expires_in){
+            expiresInTime = res.json().expires_in * 1000;
+        }
+        pm.environment.set("ExpiresInTime", expiresInTime);
+  });
+}
+```
+Add (static) collection variables for
+- Auth_Url: http://localhost:8000/api/token/
+- Auth_Username: admin
+- Auth_Password: [your-admin-password]
+
+Add (dynamic) environment variables as below, they don't need values, the script
+will populate them:
+- OAuth_Timestamp
+- ExpiresInTime
+- OAuth_Token
+
+Thanks to https://callenheltondev.medium.com/how-to-automate-oauth2-token-renewal-in-postman-864420d381a0
+for this recipe.
