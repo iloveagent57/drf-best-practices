@@ -45,6 +45,7 @@ PROJECT_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'drf_spectacular',
     'rest_framework',
     'rest_framework_simplejwt',
 ]
@@ -139,9 +140,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    )
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),
+    'TOKEN_OBTAIN_SERIALIZER': 'tutorial.quickstart.jwt.TokenWithRolesObtainPairSerializer',
 }
