@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from edx_rbac.utils import get_decoded_jwt_from_auth
+from edx_rbac.utils import get_decoded_jwt
 
 
 class UserJwtView(APIView):
@@ -18,8 +18,8 @@ class UserJwtView(APIView):
         """
         Return a user's decoded jwt token.
         """
-        edx_decoded = get_decoded_jwt_from_auth(request)
+        rbac_decoded = get_decoded_jwt(request)
         return Response({
             'simplejwt': request.auth.payload,
-            'edxjwt': edx_decoded,
+            'rbac-decoded': rbac_decoded,
         })

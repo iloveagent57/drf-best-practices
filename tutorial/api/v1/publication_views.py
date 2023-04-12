@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
 from rest_framework import permissions
 from ...quickstart.models import Publication
@@ -18,6 +18,9 @@ class PublicationCreateUpdateViewSet(CreateUpdateModelMixin):
     """
 
 
+@extend_schema(
+    tags=['publications'],
+)
 class PublicationViewSet(
     PublicationReadOnlyViewSet,
     PublicationCreateUpdateViewSet,

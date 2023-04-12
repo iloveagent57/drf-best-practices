@@ -2,4 +2,5 @@ Django<4
 djangorestframework
 djangorestframework-simplejwt
 drf-spectacular
-edx-rbac
+drf-nested-routers
+git+https://github.com/openedx/edx-rbac.git@aed/hackathon#egg=edx_rbac

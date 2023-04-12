@@ -48,6 +48,7 @@ THIRD_PARTY_APPS = [
     'drf_spectacular',
     'rest_framework',
     'rest_framework_simplejwt',
+    'rules.apps.AutodiscoverRulesConfig',
 ]
 INSTALLED_APPS += PROJECT_APPS + THIRD_PARTY_APPS
 
@@ -147,4 +148,46 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),
     'TOKEN_OBTAIN_SERIALIZER': 'tutorial.quickstart.jwt.TokenWithRolesObtainPairSerializer',
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': 'SET-ME-PLEASE',
+    'VERIFYING_KEY': '',
+    'AUDIENCE': None,
+    'ISSUER': 'http://localhost:8000/api/token',
+    'JSON_ENCODER': None,
+    'JWK_URL': None,
+    'LEEWAY': 1,
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'API for a DRF tutorial',
+    'DESCRIPTION': 'API for performing actions on data.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'ENUM_ADD_EXPLICIT_BLANK_NULL_CHOICE': False,
+    'TAGS': [
+        {
+            'name': 'articles',
+            'description': 'All endpoints that query or command directly against Article records.',
+        },
+        {
+            'name': 'publications',
+            'description': 'All endpoints that query or command directly against Publication records.',
+        },
+        {
+            'name': 'api',
+            'description': 'All endpoints not tagged by anything else.</h3>',
+        },
+    ],
+}
+
+# For edx-rbac and rules
+AUTHENTICATION_BACKENDS = (
+    'rules.permissions.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SYSTEM_TO_FEATURE_ROLE_MAPPING = {
+    'admin': ['publication_admin', 'article_admin'],
+    'user': ['publication_user', 'article_user'],
 }
