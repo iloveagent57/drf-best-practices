@@ -3,7 +3,7 @@ from .base_serializers import ReadOnlyModelSerializer
 from tutorial.quickstart.models import Article
 
 
-class ArticleReadOnlySerializer(ReadOnlyModelSerializer):
+class ArticleReadOnlySerializer(serializers.ModelSerializer):
     """
     Article serializer
     """
