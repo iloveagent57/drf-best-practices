@@ -1,6 +1,14 @@
 # drf-best-practices
 Demonstrates best practices for using DRF
 
+# Takeaways circa April 13, 2023
+- drf-spectacular has a lot of potential value for us and a fairly low cost to use.  We should formally adopt it as a best practice via an OEP.
+- edx-rbac's `PermissionRequiredForListingMixin` is not meeting our needs - it's too complex and non-obvious.  We should create a decorator that can meet this need at the view function level.
+- Viewsets and routing are sometimes fighting against us - we'd often be better off writing class-based views and explicitly declaring our routes one-by-one.  This will make the routes easier to discover and understand from a developer's perspective, and also make it easier to implement nested routes so we can be more obviously-RESTful.
+- drf-simplejwt is a nice library and we should consider adopting it in Open edX (drf-jwt is not exactly actively maintained - the arch team is starting to look into this).
+- drf-nested-routers are sort of ok, but maybe not worth the cost of adopting and fighting against yet-another-drf-author's opinions.  We can make our routes more explicit (as mentioned above) to get the same effect.
+- Other DRF packages (e.g. drf-extensions, dynamic-rest, etc.) have their hearts in the right place, but seem to get further and further away from explicitness, which makes our systems harder and harder to comprehend.
+
 # Tutorial getting started
 Largely based off of https://www.django-rest-framework.org/tutorial/quickstart/
 Do as follows:
@@ -68,7 +76,7 @@ can help you control things like permissions or serialization in a more granular
 - Many, smaller files are preferrable to a giants `views.py` file.  There is nothing
 magic about the name `views.py`.
 - It's preferrable to decompose your views into read-only viewsets and viewsets
-that add, modify, or delete records.
+that add, modify, or delete records.  But then you have to route manually, which might be ok.
 
 # Serializers
 - Have different viewsets for reads and writes.
