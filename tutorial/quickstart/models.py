@@ -62,4 +62,4 @@ class Article(models.Model):
     )
 
     def __str__(self):
-        return f'<Article: {self.title}>'
+        return f'<Article: title={self.title} author={self.author.username} pub={self.publication.name}>'
