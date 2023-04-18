@@ -1,6 +1,16 @@
 # drf-best-practices
 Demonstrates best practices for using DRF
 
+# Python study group 2023-04-17
+- Why does the standard validator go check foreign keys by making an individual DB call per key.
+  Which leads to why is validation vs your DB mixed in with serialization which should
+  be just a wire format -> memory format concern and not go to any deeper levels.  (Thanks, Andy!)
+  - Alex's answer: this might actually be about the HTML form for POSTing new data that you get on
+  successful responses in the browser-level API. e.g. by hitting http://localhost:8000/api/v1/publications/1/articles/
+  in your browser.
+
+- [Django-related] Why can't I seem to get prefetch_related to work?
+
 # Takeaways circa April 13, 2023
 - drf-spectacular has a lot of potential value for us and a fairly low cost to use.  We should formally adopt it as a best practice via an OEP.
 - edx-rbac's `PermissionRequiredForListingMixin` is not meeting our needs - it's too complex and non-obvious.  We should create a decorator that can meet this need at the view function level.
@@ -68,20 +78,23 @@ REST_FRAMEWORK = {
 - edX really likes JwtAuthentication, consider making that a default for your project.
 
 # Routers
+- You don't technically need them.  Don't fight against them to get a
+  set of API routes that meets your needs - you can use `path()` for
+  as fine-grained control as you need.
 
 # ViewSets
+- Consider starting with class-based views via `generics.GenericAPIView`.
 - Many, smaller viewsets are preferrable to single, giant viewsets.
 - It is ok to have viewsets that only support a single endpoint or action - this
 can help you control things like permissions or serialization in a more granular way.
 - Many, smaller files are preferrable to a giants `views.py` file.  There is nothing
 magic about the name `views.py`.
-- It's preferrable to decompose your views into read-only viewsets and viewsets
+- From a permissions-viewpoint, it's preferrable to decompose your views into read-only viewsets and viewsets
 that add, modify, or delete records.  But then you have to route manually, which might be ok.
 
 # Serializers
-- Have different viewsets for reads and writes.
-- DRF wants to serialize _objects_, not really _dicts_.
-- You can serialize objects that are not models.
+- Consider different serializers for reads and writes.
+- DRF wants to serialize _objects_, not really _dicts_. You can serialize objects that are not models.
 - Please for the love of all that is good and true, make your serializers
 and their methods "small enough" - too much logic in the serializers is a code smell.
 You can break down your giant serializer into smaller, more digestable serializers,

@@ -37,4 +37,5 @@ urlpatterns = [
     path('api/schema/', spectacular_view.as_view(), name='schema'),
     path('api/schema/swagger-ui/', spec_swagger_view.as_view(url_name='schema'), name='swagger-ui'),
     path('api/schema/redoc/', spec_redoc_view.as_view(url_name='schema'), name='redoc'),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
