@@ -45,6 +45,8 @@ PROJECT_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'debug_toolbar',
+    'django_extensions',
     'drf_spectacular',
     'rest_framework',
     'rest_framework_simplejwt',
@@ -60,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'tutorial.urls'
@@ -82,6 +85,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tutorial.wsgi.application'
 
+# For Django Debug toolbar
+# https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#configure-internal-ips
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

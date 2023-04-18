@@ -41,6 +41,20 @@ class PublicationMembership(models.Model):
         return f'<PubMembership: pub={self.publication.name}, user={self.user.username}, role={self.role}>'
 
 
+class Tag(models.Model):
+    """
+    TODO: model m2m relationship with an Article.
+    """
+    name = models.CharField(
+        null=False,
+        max_length=512,
+        help_text="The name of the Tag.",
+    )
+
+    def __str__(self):
+        return f'<Tag: {self.name}>'
+
+
 class Article(models.Model):
     publication = models.ForeignKey(
         Publication,
@@ -59,6 +73,10 @@ class Article(models.Model):
         unique=True,
         max_length=1024,
         help_text='The title of the Article.',
+    )
+    tags = models.ManyToManyField(
+        Tag,
+        related_name='articles',
     )
 
     def __str__(self):
